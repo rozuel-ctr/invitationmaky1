@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dog Birthday Invitation</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Poppins", system-ui, sans-serif;
+      background: radial-gradient(circle at top, #ffe9b3, #ffcf9f);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      color: brown;
+    }
+
+    .invitation-wrapper {
+      position: relative;
+      width: 960px;
+      max-width: 100%;
+      background: #fffaf3;
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 0;
+    }
+
+    /* Paw background */
+    .invitation-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255, 204, 170, 0.5) 0, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(255, 214, 170, 0.5) 0, transparent 50%);
+      opacity: 0.8;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .left-panel,
+    .right-panel {
+      padding: 32px 32px 28px 32px;
+    }
+
+    .left-panel {
+      border-right: 2px dashed rgba(210, 150, 100, 0.4);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Dog ears decoration */
+    .dog-ears {
+      position: absolute;
+      top: -40px;
+      right: -10px;
+      display: flex;
+      gap: 10px;
+      opacity: 0.7;
+      animation: float 4s ease-in-out infinite;
+    }
+    .ear {
+      width: 60px;
+      height: 100px;
+      background: #8a5a3a;
+      border-radius: 80px 80px 10px 10px;
+      box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+      transform-origin: top center;
+    }
+    .ear.left {
+      transform: rotate(-18deg);
+    }
+    .ear.right {
+      transform: rotate(18deg);
+    }
+
+    /* Header text */
+    .tagline {
+      font-size: 0.9rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #c27b45;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: 2.4rem;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+
+    /* Highlight for Maky's name */
+    .Maky {
+      font-weight: 700; /* bold */
+      color: #5c3518;
+  
+      padding: 0.08em 0.35em;
+      border-radius: 6px;
+      box-shadow: 0 4px 10px rgba(255,152,80,0.12);
+      display: inline-block;
+      transform-origin: center;
+    }
+    
+    .title span.paw {
+      display: inline-block;
+      font-size: 1.7rem;
+      margin: 0 2px;
+      transform-origin: center;
+      animation: paw-bounce 1.6s ease-in-out infinite;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: #7b5735;
+      margin-bottom: 18px;
+    }
+
+    .details {
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      border-radius: 16px;
+      background: rgba(255, 245, 225, 0.9);
+      border: 1px solid rgba(210, 150, 100, 0.4);
+    }
+
+    .details-row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 6px;
+      font-size: 0.96rem;
+    }
+
+    .details-label {
+      font-weight: 600;
+      min-width: 70px;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #8b6b4c;
+      margin-top: 6px;
+    }
+
+    .cta {
+      margin-top: 18px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff8a54, #ff6b3d);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      box-shadow: 0 8px 16px rgba(255, 119, 60, 0.4);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(255, 119, 60, 0.6);
+    }
+
+    .tiny-text {
+      font-size: 0.85rem;
+      color: #8b6b4c;
+    }
+
+    /* Dog bones divider */
+    .bones-divider {
+      margin-top: 22px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: #c99a70;
+      font-size: 0.85rem;
+    }
+    .bones-divider span.bone {
+      width: 32px;
+      height: 10px;
+      border-radius: 20px;
+      border: 2px solid #c99a70;
+      position: relative;
+    }
+    .bones-divider span.bone::before,
+    .bones-divider span.bone::after {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid #c99a70;
+      background: #fffaf3;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .bones-divider span.bone::before {
+      left: -8px;
+    }
+    .bones-divider span.bone::after {
+      right: -8px;
+    }
+
+    /* Right panel: Polaroid slider */
+    .right-panel {
+      background: linear-gradient(145deg, #fff1dd 0%, #ffe3c7 45%, #ffd3b3 100%);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .right-panel h3 {
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #b06332;
+      margin-bottom: 10px;
+    }
+
+    .polaroid-slider {
+      position: relative;
+      width: 100%;
+      max-width: 340px; /* Slightly increased */
+      height: 360px; /* Slightly increased */
+      margin-top: 10px;
+      perspective: 1200px;
+      overflow: hidden; /* Prevent overflow on mobile */
+    }
+
+    .polaroid {
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      width: 90%;
+      max-width: 320px; /* Slightly increased */
+      height: 340px; /* Slightly increased */
+      background: #fefefe;
+      border-radius: 12px;
+      box-shadow: 0 14px 30px rgba(0, 0, 0, 0.25);
+      padding: 12px 12px 24px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transform-origin: center;
+      transform: translateX(100%) rotate(6deg);
+      opacity: 0;
+      transition: transform 0.6s ease, opacity 0.6s ease, box-shadow 0.3s ease;
+    }
+
+    .polaroid.active {
+      transform: translateX(0) rotate(-2deg);
+      opacity: 1;
+      z-index: 2;
+    }
+
+    .polaroid.previous {
+      transform: translateX(-70%) rotate(-10deg) scale(0.9);
+      opacity: 0.4;
+      z-index: 1;
+    }
+
+    .polaroid::before {
+      content: "";
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2deg);
+      width: 74px;
+      height: 26px;
+      background: repeating-linear-gradient(
+        -45deg,
+        rgba(255, 255, 255, 0.8) 0,
+        rgba(255, 255, 255, 0.8) 4px,
+        rgba(230, 230, 230, 0.9) 4px,
+        rgba(230, 230, 230, 0.9) 8px
+      );
+      border-radius: 4px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
+    }
+
+    .polaroid-image-wrapper {
+      position: relative;
+      width: 100%;
+      flex: 1;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #f8e7d6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .polaroid-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Highlight glow around current dog */
+    .highlight-ring {
+      position: absolute;
+      inset: 12px;
+      border-radius: 12px;
+      box-shadow: 0 0 0 0 rgba(255, 132, 68, 0.7);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .polaroid.active .highlight-ring {
+      animation: glow-pulse 2.3s ease-in-out infinite;
+      opacity: 1;
+    }
+
+    .polaroid-caption {
+      margin-top: 10px;
+      text-align: center;
+      font-family: "Courier New", monospace;
+      font-size: 0.9rem;
+      color: #5c3d25;
+    }
+
+    .slider-controls {
+      margin-top: 8px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: #7b5735;
+    }
+
+    .slider-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #b06332;
+      font-size: 1.1rem;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .slider-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      background: #ffe7d1;
+    }
+
+    .slider-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(155, 92, 55, 0.35);
+      transition: transform 0.2s ease, background 0.2s ease;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: #ff7a42;
+      transform: scale(1.3);
+    }
+
+    .footer-note {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: #8b6b4c;
+      text-align: center;
+    }
+
+    /* Floating paw prints */
+    .paw-print {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(199, 138, 93, 0.6);
+      top: 10%;
+      right: 6%;
+      animation: float 5s ease-in-out infinite;
+      opacity: 0.7;
+    }
+    .paw-print::before,
+    .paw-print::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 2px solid rgba(199, 138, 93, 0.6);
+    }
+    .paw-print::before {
+      top: -8px;
+      left: 0;
+    }
+    .paw-print::after {
+      top: 0;
+      right: -8px;
+    }
+
+    /* Custom Modal Popup */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, #fffaf3 0%, #ffe9b3 50%, #ffcf9f 100%);
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 24px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      text-align: center;
+      color: brown;
+      border: 2px dashed rgba(210, 150, 100, 0.4);
+    }
+
+    .modal-content h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #c27b45;
+    }
+
+    .modal-content p {
+      font-size: 1rem;
+      margin-bottom: 15px;
+      color: #7b5735;
+    }
+
+    .gift-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      background: rgba(255, 245, 225, 0.9);
+      border-radius: 16px;
+      padding: 12px;
+      border: 1px solid rgba(210, 150, 100, 0.4);
+    }
+
+    .gift-list li {
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(210, 150, 100, 0.3);
+    }
+
+    .gift-list li:last-child {
+      border-bottom: none;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: #ff8a54;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 8px rgba(255, 119, 60, 0.4);
+      transition: transform 0.15s ease;
+    }
+
+    .close-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .paw-icon {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      animation: paw-bounce 1.6s ease-in-out infinite;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Animations */
+    @keyframes paw-bounce {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      40% { transform: translateY(-4px) rotate(-8deg); }
+      60% { transform: translateY(2px) rotate(4deg); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes glow-pulse {
+      0% { box-shadow: 0 0 0 0 rgba(255, 132, 68, 0.7); }
+      60% { box-shadow: 0 0 0 10px rgba(255, 132, 68, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 132, 68, 0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .invitation-wrapper {
+        grid-template-columns: 1fr;
+        border-radius: 16px; /* Smaller radius for mobile */
+      }
+      .left-panel {
+        border-right: none;
+        border-bottom: 2px dashed rgba(210, 150, 100, 0.4);
+        padding: 24px 20px 20px 20px; /* Reduced padding */
+      }
+      .right-panel {
+        padding: 24px 20px 20px 20px; /* Reduced padding */
+      }
+      .title {
+        font-size: 2rem; /* Smaller title */
+      }
+      .subtitle {
+        font-size: 1rem;
+      }
+            .details-row {
+        flex-direction: column; /* Stack labels and values */
+        gap: 4px;
+      }
+      .details-label {
+        min-width: auto;
+        font-weight: bold;
+      }
+      .btn-primary {
+        width: 100%; /* Full width button */
+        padding: 14px;
+        font-size: 0.9rem;
+      }
+      .cta {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .tiny-text {
+        text-align: center;
+        margin-top: 8px;
+      }
+      .polaroid-slider {
+        max-width: 300px; 
+        height: 320px; 
+      }
+      .polaroid {
+        width: 95%;
+        max-width: 280px;
+        height: 300px; 
+      }
+      .slider-controls {
+        gap: 8px;
+      }
+      .slider-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+      .paw-print {
+        width: 16px;
+        height: 16px;
+      }
+      .paw-print::before,
+      .paw-print::after {
+        width: 6px;
+        height: 6px;
+      }
+      .modal-content {
+        margin: 20% auto; 
+        width: 95%;
+        max-width: 350px;
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) {
+      .slider-btn:hover {
+        transform: none; 
+      }
+      .btn-primary:hover {
+        transform: none;
+      }
+      .close-btn:hover {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="invitation-wrapper">
+    <!-- LEFT: Invitation text -->
+    <div class="left-panel">
+      <div class="dog-ears">
+        <div class="ear left"></div>
+        <div class="ear right"></div>
+      </div>
+
+      <div class="tagline">You are invited</div>
+      <div class="title">
+        Let’s Pawty<span class="paw">🐾</span><br />
+        It’s <span class="Maky">Maky's</span> 1st Birthday!
+      </div>
+      <div class="subtitle">
+        Join us for a tail-wagging good time as we celebrate Maky's special day!
+      </div>
+
+      <div class="details">
+        <div class="details-row">
+          <span class="details-label">Dog:</span>
+          <span contenteditable="true">Maky</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Age:</span>
+          <span contenteditable="true">1 year old</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Date:</span>
+          <span contenteditable="true">December 12, 2025</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Time:</span>
+          <span contenteditable="true">See you there at 5pm</span>
+        </div>
+        <div class="details-row">
+          <span class="details-label">Place:</span>
+          <span contenteditable="true">Flores Mansion</span>
+        </div>
+      
+      </div>
+
+      <div class="cta">
+        <button class="btn-primary" onclick="openModal()">
+           Gift Recommendations
+        </button>
+        
+      </div>
+
+      <div class="bones-divider">
+        <span class="bone"></span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Polaroid slider -->
+    <div class="right-panel">
+      
+
+      <div class="polaroid-slider" id="polaroidSlider">
+        <!-- Slide 1 -->
+        <div class="polaroid active">
+          <div class="polaroid-image-wrapper">
+            <div class="highlight-ring"></div>
+            <img src="maky/maky1.jpg" alt="Dog photo 1">
+          </div>
+          
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="polaroid">
+          <div class="polaroid-image-wrapper">
+            <div class="highlight-ring"></div>
+            <img src="maky/maky-daddy&mommy.jpg" alt="Dog photo 2">
+          </div>
+          
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="polaroid">
+          <div class="polaroid-image-wrapper">
+            <div class="highlight-ring"></div>
+            <img src="maky/maky-daddy&mommy3.jpg" alt="Dog photo 3">
+          </div>
+          
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="polaroid">
+          <div class="polaroid-image-wrapper">
+            <div class="highlight-ring"></div>
+            <img src="maky/maky2.jpg" alt="Dog photo 4">
+          </div>
+          
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="polaroid">
+          <div class="polaroid-image-wrapper">
+            <div class="highlight-ring"></div>
+            <img src="maky/maky-daddy&mommy2.jpg" alt="Dog photo 5">
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="slider-controls">
+        <button class="slider-btn" id="prevBtn" aria-label="Previous photo">❮</button>
+        <div class="slider-dots" id="sliderDots"></div>
+        <button class="slider-btn" id="nextBtn" aria-label="Next photo">❯</button>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Can’t wait to see you 🐶🎉
+    </div>
+  </div>
+
+  <!-- Custom Modal -->
+  <div id="giftModal" class="modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">×</button>
+      <div class="paw-icon">🐾</div>
+      <h2>Gift Recommendations</h2>
+      <p>Your presence is greatly appreciated. But if you would like to bring a little something, here are the list of Maky's favorites:</p>
+      <ul class="gift-list">
+        <li>Pedigree wet food for adult</li>
+        <li>Furpals sausage</li>
+        <li>Furpals dental sticks</li>
+        <li>Shang pooches shampoo with conditioner</li>
+        <li>Saint Roche shampoo</li>
+        <li>Saint Roche conditioner</li>
+        <li>XL pet clothes</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+    const slider = document.getElementById("polaroidSlider");
+    const slides = Array.from(slider.querySelectorAll(".polaroid"));
+    const dotsContainer = document.getElementById("sliderDots");
+    const prevBtn = document.getElementById("prevBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const modal = document.getElementById("giftModal");
+
+    let currentIndex = 0;
+
+    // Create dots
+    slides.forEach((_, index) => {
+      const dot = document.createElement("div");
+      dot.className = "dot";
+      dot.addEventListener("click", () => goToSlide(index));
+      dotsContainer.appendChild(dot);
+    });
+    const dots = Array.from(dotsContainer.querySelectorAll(".dot"));
+
+    function updateSlides() {
+      slides.forEach((slide, i) => {
+        slide.classList.remove("active", "previous");
+        dots[i].classList.remove("active");
+        if (i === currentIndex) {
+          slide.classList.add("active");
+          dots[i].classList.add("active");
+        } else if (i === (currentIndex - 1 + slides.length) % slides.length) {
+          slide.classList.add("previous");
+        }
+      });
+    }
+
+    function goToSlide(index) {
+      currentIndex = (index + slides.length) % slides.length;
+      updateSlides();
+    }
+
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentIndex - 1);
+    }
+
+    prevBtn.addEventListener("click", prevSlide);
+    nextBtn.addEventListener("click", nextSlide);
+
+    // Modal functions
+    function openModal() {
+      modal.style.display = "block";
+    }
+
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
+    // Close modal when clicking outside
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    // Initial state
+    updateSlides();
+
+    // Auto-slide every 5 seconds
+    setInterval(() => {
+      if (slides.length > 1) nextSlide();
+    }, 5000);
+  </script>
+</body>
+</html>
